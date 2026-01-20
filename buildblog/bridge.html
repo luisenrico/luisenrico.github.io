@@ -17,17 +17,14 @@
   <div class="date">January 2026</div>
 
   <p class="desc">
-    The goal here is not merely to build an Radio-Controlled Ornithopter that flies, but to understand why it flies—and how to improve it in a principled, engineering-driven manner.
+    This spaghetti bridge uses a simple Warren truss with short, bundled compression members and light tension members to reliably carry heavy loads far beyond what most designs achieve.
   </p>
 <nav class="toc">
   <strong>Chapters</strong>
   <ul>
     <li><a href="https://luisenrico.github.io/projects.html">Back</a></li>
-    <li><a href="#assumptions">Assumptions and Constraints</a></li>
-    <li><a href="#build">The math</a></li>
-    <li><a href="#analysis">CAD and Simulations</a></li>
-    <li><a href="#results">Build Process</a></li>
-    <li><a href="#lessons">Conclusion</a></li>
+    <li>Assumptions and Constraints</li>
+    <li><a href="#bts">Behind the scenes</a></li>
   </ul>
 </nav>
   
@@ -35,135 +32,77 @@
   <div class="divider"></div>
 
   <!-- Context -->
-  <h2>1. Introduction</h2>
+  <h2>The 50‑kg Spaghetti Bridge That Wins</h2>
   <p>
-    An ornithopter is a flying device that mimics the flight of birds. At face value, the concept is simple; in practice, it is anything but. Unlike fixed-wing aircraft, an ornithopter generates lift and thrust through the periodic flapping of its wings, closely replicating the biomechanics observed in nature. This makes it an ideal engineering problem—deceptively straightforward in description, yet mechanically and analytically complex in execution.
+    This chapter distills everything that actually matters when building a competition‑grade spaghetti bridge.
+    No tricks, no aesthetics, no unnecessary theory  —  just decisions that reliably let a bridge carry 50 kg and beyond.
   
   <div class="figure">
-    <img src="/assets/ornithopter.png" alt="Leonardo Da Vinci's Work">
+    <img src="/assets/bridges.gif" alt="Spaghetti Bridge">
     <div class="caption">
-      Leonardo Da Vinci's Work
+      Run through on what really happens when it breaks!
     </div>
   </div>
-    
-    This project serves as a practical engineering challenge that bridges theory and application. It demands an understanding of aerodynamics, kinematics, structural mechanics, and energy transfer, all working in concert. Designing an ornithopter from scratch requires reasoning from first principles rather than relying solely on empirical replication.
-    
-    It is well known that numerous ornithopter designs are readily available online. Hobbyists have refined workable configurations for decades, and public demonstrations—such as early <a href="https://www.youtube.com/watch?v=Fg_JcKSHUtQ&t=193s"> TED Talks </a>  showcasing flapping-wing flight—clearly prove that the concept works. 
+    <br>
+    A spaghetti bridge is an architectural model of a bridge, made of uncooked spaghetti or other hard, dry, straight noodles. 
+    Bridges are constructed for both educational experiments and competitions. 
+    The aim is usually to construct a bridge with a specific quantity of materials over a specific span, that can sustain a load. Using only Super Glue and Stick Glue for bonding agent.
   
   <div class="note">
     <strong>However!</strong>
-    this blog is not about copying an existing design. Instead, it focuses on what happens under the hood: the assumptions, trade-offs, and physical constraints that govern flapping-wing flight.
+    What we should do is to Intentionally create sacrificial members that fail first in non-critical locations, allowing the load to reroute without catastrophic collapse.
   </div>  
-    Interestingly, ornithopters remain popular among hobbyists due to their versatility in material selection and mechanical layouts. This flexibility, however, often masks the underlying complexity of the system. 
-  
+    <br><br>
+    <u>1. Choose on structure and commit to it</u>!
+    <br>
+    Use a straight Warren truss with equal‑sized triangles. This geometry naturally balances forces and avoids long, weak members. Fancy shapes introduce uncertainty; repetition creates predictability. Predictability is how bridges win.
+    <br><br>
+    <u>2. Treat compression as the enemy</u>
+    <br>
+    Spaghetti fails in compression by buckling, not by crushing. Any member under compression must be short and thick. If a compression member is longer than a finger, bundle it.
+
+    Bundling must be three‑dimensional — triangular or box‑like. Moving material away from the center dramatically increases buckling resistance.
+    <br><br>
+    <u>3. Keep Tension members light</u>
+    Spaghetti performs well in tension. Use single sticks for tension members. Bundling here wastes weight and gives no advantage. A winning bridge is heavy only where it must be.
+    <br><br>
+    <u>4. Build joints like structural elements</u>
+    Most bridges fail at joints, not members. Every joint must:
+    <ul>
+      <li>Have roughened spahetti ends</li>
+      <li>use the prescribed glue's</li>
+      <li>Overlap members by atleast 10-15 mm</li>
+    </ul>
+    A joint should look like a small node, not two sticks touching.
+
+    <br><br>
+    <u>Now the non-obious trick!</u> 
+    The bridge is not failing at 50 kg but it's failing earlier, adn the rest is just delayed collapse. what actually happens is this:
+    <ul>
+      <li>At 60 - 80% of max load, one compression member micro-buckles</li>
+      <li>This causes a force distribution across the truss</li>
+      <li>Other members quietly take overload they were never designed for</li>
+      <li>The final "snap" is just the moment the structure runs out of redundancy, not strength</li>
+    </ul>
+    Thus, A bridge that looks overbuilt in one or two critical compression members will outperform a uniformly strong bridge  —  even if the total spaghetti mass is the same.
   </p>
 
-  <!-- Assumptions -->
-  <h2 id="assumptions">2. Assumptions and Constraints</h2>
+  <!-- bts -->
+  <h2 id="bts">Behind the scenes</h2>
   <p>
-    The first question that must be addressed is fundamental: how do birds actually fly? At its core, bird flight requires two things—lift to overcome gravity and thrust to overcome drag. Birds generate both primarily through the <a href="https://en.wikipedia.org/wiki/File:Flyingswallow.webm"> flapping motion </a>of their wings, which are highly specialized, cambered aerodynamic surfaces. <br><br>
-  	
-  	The curved (cambered) shape of a bird’s wing produces a pressure difference between its upper and lower surfaces. As air flows around the wing, the pressure above the wing is lower than the pressure below it, resulting in an upward force—lift. However, lift is not produced by wing shape alone. The flapping motion actively accelerates air downward and backward, and by Newton’s third law, this momentum change produces an upward and forward reaction force on the bird.<br><br>
-  
-  <div class="video">
-    <iframe
-      src="https://www.youtube.com/embed/lBlZM1nre5g"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-  </div>
-   
-  <div class="note">
-    <strong>Key Insight:</strong>
-    air must be moving relative to the wing for lift to exist. Once relative airflow is established, the air passing over the top surface of the wing generally travels faster and over a longer path than the air beneath it. This velocity difference contributes to a pressure imbalance: lower pressure above the wing and higher pressure below. The rushing air beneath the wing helps sustain lift, while the pressure deficit above prevents collapse
-  </div>
-    Flapping does more than generate lift—it also produces thrust. During the downstroke, the wing acts much like an oar moving through water. By pushing air backward and downward along a diagonal path, the bird generates a forward component of force. This effect is enhanced by a carefully controlled angle of attack, where the leading edge of the wing is slightly angled downward relative to the incoming airflow. This orientation allows the wing to generate thrust while maintaining lift, overcoming aerodynamic drag.<br><br>
-    In simplified terms:
-  <ul>
-    <li>Downward force component → lift</li>
-    <li>Backward force component → thrust</li>
-  </ul>
     
-    The coordination of wing motion, deformation, and angle of attack is what makes sustained forward flight possible. To translate biological flight into an engineering system, assumptions are necessary. These assumptions reduce design complexity, constrain the solution space, and enable first-order analytical estimates before committing to hardware.<br><br>
+  <blockquote class="instagram-media"
+    data-instgrm-permalink="https://www.instagram.com/reel/DDmO_ROzUZj/"
+    data-instgrm-version="14"
+    style="background:#FFF; border:0; margin:1px; max-width:540px; width:100%;">
+  </blockquote>
 
-    Flight Regime
-  <ul>
-    <li>Low-speed, low Reynolds number flight</li>
-    <li>Subsonic, Incompressible flow</li>
-    <li>Quasi-steady Aerodynamics (unsteady effects are acknowledged but approximated)</li>
-  </ul>
+  <script async src="https://www.instagram.com/embed.js"></script>
 
-    Mission Profile
-  <ul>
-    <li>Short endurance flight</li>
-    <li>Ground-assisted launch</li>
-    <li>Operation in calm air or light wind conditions</li>
-  </ul>
-
-    Structural
-  <ul>
-    <li>Elastic wing deformation is intentional and aerodynamically beneficial</li>
-    <li>All structural components remain within elastic limits</li>
-    <li>No plastic deformation under nominal flight loads</li>
-  </ul>
-
-    While real bird flight is highly unsteady, adaptive, and nonlinear, these assumptions allow the ornithopter problem to be treated as an engineering system rather than a biological imitation exercise.
-  </p>
-  <!-- Build -->
-  <h2 id="build">3. The math</h2>
-
-  <p>
-    The flapping mechanism uses a crank-slider driven directly by a coreless motor
-    Wing spars are light wooden material.
+   
+  
   </p>
 
-<div class="figure">
-  <img src="/assets/orni.gif" alt="Flapping mechanism">
-  <div class="caption">
-    3D model of an ornithopter
-  </div>
-</div>
-
-<div class="video">
-  <iframe
-    src="https://www.youtube.com/embed/-S60dQb1FvU"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen>
-  </iframe>
-</div>
-
-
-  <!-- Analysis -->
-  <h2 id="analysis">4. Analysis and Observations</h2>
-
-  <p>
-    At peak motor speed, the flapping frequency reached approximately 6 Hz.
-    Significant torsional oscillation was observed in the wing spars,
-    indicating under-designed stiffness.
-  </p>
-
-  <div class="note">
-    <strong>Key Insight:</strong>
-    Structural compliance dominated aerodynamic effects, masking any lift
-    gains from increased flapping frequency.
-  </div>
-
-  <!-- Results -->
-  <h2 id="results">5. Results</h2>
-
-  <ul>
-    <li>Short hops achieved (&lt; 1 second)</li>
-    <li>No sustained flight</li>
-    <li>Mechanism reliability acceptable</li>
-  </ul>
-
-  <!-- Lessons -->
-  <h2 id="lessons">6. Lessons Learned and Next Steps</h2>
-
-  <p>
-    Future iterations will prioritize wing torsional stiffness and introduce
-    passive twist via compliant joints rather than rigid spars.
-  </p>
   
 <footer class="site-footer">
   <div class="footer-divider"></div>
