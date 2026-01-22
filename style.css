@@ -345,6 +345,51 @@ hr {
 
 
 
+/* --About section only*/
+.about-simple {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 40px 0;
+}
+
+.about-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.about-copy h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.about-line {
+    margin: 6px 0 14px;
+    color: #aab4bc;
+    font-size: 16px;
+}
+
+.about-icons a {
+    margin-right: 12px;
+    font-size: 14px;
+    color: #c6a785;
+    text-decoration: none;
+}
+
+.about-icons a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .about-simple {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
 
 
 
