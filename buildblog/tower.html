@@ -12,142 +12,143 @@
 
 <body>
   <div class="cover-photo"></div>
-  <!-- Title Block -->
-  <h1> Spaghetti Tower </h1>
-  <div class="date">January 2026</div>
-
-  <p class="desc">
-    You don’t win by making spaghetti stronger; you win by designing geometry that forces the load to flow straight down through short, well-braced paths so spaghetti never gets the chance to buckle.
-  </p>
-<nav class="toc">
-  <strong>Chapters</strong>
-  <ul>
-    <li><a href="https://luisenrico.github.io/projects.html">Back</a></li>
-    <li><a href="#intuition">Load Paths and Failure Intuition (Why It Actually Works)</a></li>
-    <li><a href="#cad">CAD, Simulation, and Behind the Scenes (What You See)</a></li>
-</nav>
+  <div class="main-content">
+    <!-- Title Block -->
+    <h1> Spaghetti Tower </h1>
+    <div class="date">January 2026</div>
   
-  
-  <div class="divider"></div>
-
-  <!-- Intro -->
-  <h2>Head's up</h2>
-  <p>
-
-      A spaghetti tower that carries <strong>100 kg</strong> works only because the structure prevents spaghetti from ever doing what it’s bad at. Spaghetti is not weak in the sense people think; it fails because it buckles long before it breaks. The entire design problem is therefore about stopping buckling, <u>not about increasing material strength</u>.
+    <p class="desc">
+      You don’t win by making spaghetti stronger; you win by designing geometry that forces the load to flow straight down through short, well-braced paths so spaghetti never gets the chance to buckle.
+    </p>
+  <nav class="toc">
+    <strong>Chapters</strong>
+    <ul>
+      <li><a href="https://luisenrico.github.io/projects.html">Back</a></li>
+      <li><a href="#intuition">Load Paths and Failure Intuition (Why It Actually Works)</a></li>
+      <li><a href="#cad">CAD, Simulation, and Behind the Scenes (What You See)</a></li>
+  </nav>
     
+    
+    <div class="divider"></div>
+  
+    <!-- Intro -->
+    <h2>Head's up</h2>
+    <p>
+  
+        A spaghetti tower that carries <strong>100 kg</strong> works only because the structure prevents spaghetti from ever doing what it’s bad at. Spaghetti is not weak in the sense people think; it fails because it buckles long before it breaks. The entire design problem is therefore about stopping buckling, <u>not about increasing material strength</u>.
+      
+    <div class="figure">
+      <img src="/assets/tower.png" alt="Heads up">
+      <div class="caption">
+        Spaghetti tower Big picture overview :)
+      </div>
+    </div>
+  
+      <br>
+        The fastest way to lose is to think in terms of “tower” or “pillar.” The moment you imagine a vertical column carrying weight, you’ve already lost, because columns invite buckling. Winning teams don’t design towers; they design load paths. The structure is just a scaffold that forces the load to flow where you want it to go.
+  
+      
+    <div class="note">
+      <strong>However!</strong>
+      You don’t win a spaghetti tower competition by making spaghetti stronger. You win by <strong>never</strong> asking spaghetti to do something stupid.
+    </div>  
+    </p>
+  
+    
+    <h2 id="intuition">Load Paths and Failure Intuition (Why It Actually Works)</h2>
+    <p>
+      There are only two intuition, first is this: height is fake. Externally the structure may be tall, but internally nothing is long. Every compression member is brutally short, interrupted by triangles before it ever gets the chance to bend. If you see a member longer than a few centimeters carrying compression, it’s a ticking clock
+      
+      <br><br>
+  
+      Joints are where most towers actually fail. If joints are brittle or poorly bonded, the structure collapses long before the spaghetti reaches its theoretical limits. Good joints spread load gradually from one member to another. Slight compliance in the glue is beneficial because it allows stress redistribution instead of concentrating forces at a single point. A well-designed joint is stronger than the members it connects.
+    
+    <div class="video">
+      <iframe
+        src="https://www.youtube.com/embed/SfWD1QiKBWw"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+     
+    <div class="note">
+      <strong>Control the failure!</strong>
+      The best towers don’t aim to be unbreakable; they aim to break late and slowly. Redundancy is intentional. When one member fails, the load must have somewhere else to go. Sudden collapse means you trusted a single path too much.
+    </div>
+    
+      The second intuition and last is this: <strong>The load must feel welcome</strong>, At the top, the weight should immediately split into multiple clear paths. If the load “hesitates” at the top — sitting on a flat plate, a soft joint, or a single node — the structure is already under stress before the test begins. Winning designs guide the load downward like water finding channels, not like a hammer hitting a nail.
+      If you internalize just one thing, make it this: <u>You are not building a strong object. You are choreographing forces.</u>
+  
+      <br><br>
+      So in summary,:
+    <ul>
+      <li>Compression is guilty until proven innocent</li>
+      <li>Geometry beats optimization</li>
+      <li>Joints are structural members</li>
+      <li>Symmetry is not aesthetics, it's insurance</li>
+    </ul>
+      
+    </p>
+    
+    <h2 id="cad">CAD, Simulation, and Behind the Scenes (What You See)</h2>
+  
+    <p>
+      Spaghetti pasta is known for its smooth, thin, and brittle strips which snap in half with
+      the slightest bit of stresses induced by loads applied to it. While creating a tower using this may
+      be difficult, applying the right design and analysis creates an effective and efficient tower. 
+  
+      
+      
+    </p>
+  
   <div class="figure">
-    <img src="/assets/tower.png" alt="Heads up">
+    <img src="/assets/orni.gif" alt="Flapping mechanism">
     <div class="caption">
-      Spaghetti tower Big picture overview :)
+      3D model of an ornithopter
     </div>
   </div>
-
-    <br>
-      The fastest way to lose is to think in terms of “tower” or “pillar.” The moment you imagine a vertical column carrying weight, you’ve already lost, because columns invite buckling. Winning teams don’t design towers; they design load paths. The structure is just a scaffold that forces the load to flow where you want it to go.
-
-    
-  <div class="note">
-    <strong>However!</strong>
-    You don’t win a spaghetti tower competition by making spaghetti stronger. You win by <strong>never</strong> asking spaghetti to do something stupid.
-  </div>  
-  </p>
-
-  
-  <h2 id="intuition">Load Paths and Failure Intuition (Why It Actually Works)</h2>
-  <p>
-    There are only two intuition, first is this: height is fake. Externally the structure may be tall, but internally nothing is long. Every compression member is brutally short, interrupted by triangles before it ever gets the chance to bend. If you see a member longer than a few centimeters carrying compression, it’s a ticking clock
-    
-    <br><br>
-
-    Joints are where most towers actually fail. If joints are brittle or poorly bonded, the structure collapses long before the spaghetti reaches its theoretical limits. Good joints spread load gradually from one member to another. Slight compliance in the glue is beneficial because it allows stress redistribution instead of concentrating forces at a single point. A well-designed joint is stronger than the members it connects.
   
   <div class="video">
     <iframe
-      src="https://www.youtube.com/embed/SfWD1QiKBWw"
+      src="https://www.youtube.com/embed/-S60dQb1FvU"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen>
     </iframe>
   </div>
-   
-  <div class="note">
-    <strong>Control the failure!</strong>
-    The best towers don’t aim to be unbreakable; they aim to break late and slowly. Redundancy is intentional. When one member fails, the load must have somewhere else to go. Sudden collapse means you trusted a single path too much.
-  </div>
   
-    The second intuition and last is this: <strong>The load must feel welcome</strong>, At the top, the weight should immediately split into multiple clear paths. If the load “hesitates” at the top — sitting on a flat plate, a soft joint, or a single node — the structure is already under stress before the test begins. Winning designs guide the load downward like water finding channels, not like a hammer hitting a nail.
-    If you internalize just one thing, make it this: <u>You are not building a strong object. You are choreographing forces.</u>
-
-    <br><br>
-    So in summary,:
-  <ul>
-    <li>Compression is guilty until proven innocent</li>
-    <li>Geometry beats optimization</li>
-    <li>Joints are structural members</li>
-    <li>Symmetry is not aesthetics, it's insurance</li>
-  </ul>
-    
-  </p>
   
-  <h2 id="cad">CAD, Simulation, and Behind the Scenes (What You See)</h2>
-
-  <p>
-    Spaghetti pasta is known for its smooth, thin, and brittle strips which snap in half with
-    the slightest bit of stresses induced by loads applied to it. While creating a tower using this may
-    be difficult, applying the right design and analysis creates an effective and efficient tower. 
-
-    
-    
-  </p>
-
-<div class="figure">
-  <img src="/assets/orni.gif" alt="Flapping mechanism">
-  <div class="caption">
-    3D model of an ornithopter
-  </div>
-</div>
-
-<div class="video">
-  <iframe
-    src="https://www.youtube.com/embed/-S60dQb1FvU"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen>
-  </iframe>
-</div>
-
-
-  <!-- Analysis -->
-  <h2 id="analysis">4. Analysis and Observations</h2>
-
-  <p>
-    At peak motor speed, the flapping frequency reached approximately 6 Hz.
-    Significant torsional oscillation was observed in the wing spars,
-    indicating under-designed stiffness.
-  </p>
-
-  <div class="note">
-    <strong>Key Insight:</strong>
-    Structural compliance dominated aerodynamic effects, masking any lift
-    gains from increased flapping frequency.
-  </div>
-
-  <!-- Results -->
-  <h2 id="results">5. Results</h2>
-
-  <ul>
-    <li>Short hops achieved (&lt; 1 second)</li>
-    <li>No sustained flight</li>
-    <li>Mechanism reliability acceptable</li>
-  </ul>
-
-  <!-- Lessons -->
-  <h2 id="lessons">6. Lessons Learned and Next Steps</h2>
-
-  <p>
-    Future iterations will prioritize wing torsional stiffness and introduce
-    passive twist via compliant joints rather than rigid spars.
-  </p>
+    <!-- Analysis -->
+    <h2 id="analysis">4. Analysis and Observations</h2>
   
+    <p>
+      At peak motor speed, the flapping frequency reached approximately 6 Hz.
+      Significant torsional oscillation was observed in the wing spars,
+      indicating under-designed stiffness.
+    </p>
+  
+    <div class="note">
+      <strong>Key Insight:</strong>
+      Structural compliance dominated aerodynamic effects, masking any lift
+      gains from increased flapping frequency.
+    </div>
+  
+    <!-- Results -->
+    <h2 id="results">5. Results</h2>
+  
+    <ul>
+      <li>Short hops achieved (&lt; 1 second)</li>
+      <li>No sustained flight</li>
+      <li>Mechanism reliability acceptable</li>
+    </ul>
+  
+    <!-- Lessons -->
+    <h2 id="lessons">6. Lessons Learned and Next Steps</h2>
+  
+    <p>
+      Future iterations will prioritize wing torsional stiffness and introduce
+      passive twist via compliant joints rather than rigid spars.
+    </p>
+  </div>  
 <footer class="site-footer">
   <div class="footer-divider"></div>
 
