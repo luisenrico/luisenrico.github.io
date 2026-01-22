@@ -10,12 +10,13 @@ body {
 }
 
 .cover-photo {
-    width: 100%;
+    width: 100vw;
     height: 280px; 
     background-image: url("/assets/space.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    margin: 0;
 }
 
 /* Links */
