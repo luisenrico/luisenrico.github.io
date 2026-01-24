@@ -13,275 +13,289 @@
 <body>
   <div class="cover-photo"></div>
   <div class="main-content">
-    <!-- Title Block -->
-    <h1> USTP Water Rocket (Launch Pad And Rocket) </h1>
-    <div class="date">January 2026</div>
-  
-    <p class="desc">
-      This is <strong>not a recipe</strong>. This is a design explanation. If you’re here to blindly follow steps, stop reading. This document is for builders who understand, modify, and adapt. 
-    </p>
-  <nav class="toc">
-    <strong>Chapters</strong>
-    <ul>
-      <li><a href="https://luisenrico.github.io/projects.html">Back</a></li>
-      <li><a href="#rocket">Water Rocket</a></li>
-      <li><a href="#pad">Water Rocket Launcher Pad</a></li>
-    </ul>
-  </nav>
+      <!-- Title Block -->
+      <h1> USTP Water Rocket (Launch Pad And Rocket) </h1>
+      <div class="date">January 2026</div>
     
+      <p class="desc">
+        This is <strong>not a recipe</strong>. This is a design explanation. If you’re here to blindly follow steps, stop reading. This document is for builders who understand, modify, and adapt. 
+      </p>
+    <nav class="toc">
+      <strong>Chapters</strong>
+      <ul>
+        <li><a href="https://luisenrico.github.io/projects.html">Back</a></li>
+        <li><a href="#rocket">Water Rocket</a></li>
+        <li><a href="#pad">Water Rocket Launcher Pad</a></li>
+      </ul>
+    </nav>
+      
+      
+      <div class="divider"></div>
     
-    <div class="divider"></div>
-  
-    <!-- start -->
-    <h2 id="rocket">Water Rocket</h2>
-    <p>
-      Every competition has different constraints, bottles, rules, wind, and judges. What matters is the logic behind the system — once you understand that, you can redesign it however you want. This rocket worked reliably because the physics cooperated, not because parts were glued in a specific order
-    
-    <div class="figure">
-      <img src="/assets/Wrock.gif" alt="The realistic operation of a water rocket!">
-    </div>
-      <br>
-      A 60 cm water rocket launched at ~40 psi is built as a <strong>two-stage passive recovery system</strong>. When the water is exhausted, the rocket <strong>separates into two bodies</strong>. The egg-containing section naturally flips 180° due to mass distribution, making parachute deployment trivial. Both sections carry parachutes.<br>
-      Deployment is assisted — not forced — by airflow using a small vent that exploits pressure differences (Bernoulli behavior). The egg survives because it is isolated, not restrained, and allowed to decelerate gently.
-      <br>
-      That’s the whole system. Everything else is implementation detail. 
-    
-    <div class="note">
-      <strong>Note!</strong>
-      This rocket works because it respects physics instead of fighting it. No timers. No triggers. Just airflow, inertia, mass, and gravity. . . . doing exactly what they always do. Build like a chef. Taste, adjust, iterate.
-      <br>
-    </div>
-    <br>
-      That’s how the egg survives.
-    </div>  
-    </p>
-  
-    <h2> Think in systems, not parts</h2>
-    <p>
-      The rocket is not one object. It is:
-      <ul>
-        <li>A propulsion (water + pressure)</li>
-        <li>A payload body (egg + stability mass)</li>
-        <li>A separation interface (passive, no triggers)</li>
-        <li>Two independent recovery systems</li>
-      </ul>
-      <br>
-      once you stop thinking of it as "a bottle with fins", the design becomes obvious (atleast for me! :D )
-      <br>
-    </p>
-    <div class="video">
-      <iframe
-        src="https://www.youtube.com/embed/4xyE4pqSgDo"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </div>
-    Download and Access the <a href="https://grabcad.com/library/water-rocket-4">CAD</a>here! Feel free to modify and make changes as well! share and let me know what improvements you did as well :D
-    <br><br>
-    <h2>Passive mid-air separation (The most important feature)</h2>
-    <p>
-      As soon as the water is fully expelled, thrust drops to zero almost instantly. At that moment:
-      <ul>
-        <li>Internal pressure collapses</li>
-        <li>Acceleration stops</li>
-        <li>Inertia differences dominate</li>
-      </ul>
-      <br>
-      This is where separation happnes.
-      <br><br>
-      Now, why does the separation works without mechanisms?
-      <br>
-      The payload (egg) section is heavier and forward-loaded. The propulsion section is lighter and rear-heavy. when the thrust ends:
-      <ul>
-        <li>The connection between them no longer experiences compressive force</li>
-        <li>Air drag immediately begins to pull them apart</li>
-        <li>No springs, no explosives, no timers</li>
-      </ul>
-      The rocket wants to separate. You simply allow it to. And by the way, this is not staging. . its permission
-    </p>
-  
-    <h2>The 180 degree flip is not an accident - it's designed</h2>
-    <p>
-      Once separated, the egg section flips nose-down almost immediately. Why?
-      <ul>
-        <li>The egg is the dominant mass</li>
-        <li>Drag acts behind the center of mass</li>
-        <li>Gravity finishes the job</li>
-      </ul>
-      <br>
-      This flip is critical because:
-      <ul>
-        <li>The parachute is now trailing naturally</li>
-        <li>No ejection force is needed</li>
-        <li>Tangling probability drops drastically</li>
-      </ul>
-      In other words: orientation solves deployment
-    </p>
-  
-    <h2>Bernoulli-assisted parachute deployment</h2>
-    <p>
-      Each section contains a parachute that is lightly retained, not locked. <br>
-      A small vent hole exists in the parachute compartment. Its purpose is not pressure equalization — it is <strong>pressure exploitation</strong>.<br>
-      When air moves rapidly around the rocket body:
-      <ul>
-        <li>Pressure outside the hole drops</li>
-        <li>Pressure inside the compartment remains higher</li>
-        <li>The parachute fabric is gently pulled outward</li>
-      </ul>
-      <br>
-      This effect becomes strongest:
-      <ul>
-        <li>at burnout (sudden airflow change)</li>
-        <li>During the flip</li>
-        <li>As descent begins</li>
-      </ul>
-      <br>
-      the hole does not "push" the parachute out. It <strong>removes resistance</strong>
+      <!-- start -->
+      <h2 id="rocket">Water Rocket</h2>
+      <p>
+        Every competition has different constraints, bottles, rules, wind, and judges. What matters is the logic behind the system — once you understand that, you can redesign it however you want. This rocket worked reliably because the physics cooperated, not because parts were glued in a specific order
+      
       <div class="figure">
-        <img src="/assets/chute.jpg" alt="The Realistic Chute">
+        <img src="/assets/Wrock.gif" alt="The realistic operation of a water rocket!">
+      </div>
+        <br>
+        A 60 cm water rocket launched at ~40 psi is built as a <strong>two-stage passive recovery system</strong>. When the water is exhausted, the rocket <strong>separates into two bodies</strong>. The egg-containing section naturally flips 180° due to mass distribution, making parachute deployment trivial. Both sections carry parachutes.<br>
+        Deployment is assisted — not forced — by airflow using a small vent that exploits pressure differences (Bernoulli behavior). The egg survives because it is isolated, not restrained, and allowed to decelerate gently.
+        <br>
+        That’s the whole system. Everything else is implementation detail. 
+      
+      <div class="note">
+        <strong>Note!</strong>
+        This rocket works because it respects physics instead of fighting it. No timers. No triggers. Just airflow, inertia, mass, and gravity. . . . doing exactly what they always do. Build like a chef. Taste, adjust, iterate.
+        <br>
+      </div>
+      <br>
+        That’s how the egg survives.
+      </div>  
+      </p>
+    
+      <h2> Think in systems, not parts</h2>
+      <p>
+        The rocket is not one object. It is:
+        <ul>
+          <li>A propulsion (water + pressure)</li>
+          <li>A payload body (egg + stability mass)</li>
+          <li>A separation interface (passive, no triggers)</li>
+          <li>Two independent recovery systems</li>
+        </ul>
+        <br>
+        once you stop thinking of it as "a bottle with fins", the design becomes obvious (atleast for me! :D )
+        <br>
+      </p>
+      <div class="video">
+        <iframe
+          src="https://www.youtube.com/embed/4xyE4pqSgDo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      Download and Access the <a href="https://grabcad.com/library/water-rocket-4">CAD</a>here! Feel free to modify and make changes as well! share and let me know what improvements you did as well :D
+      <br><br>
+      <h2>Passive mid-air separation (The most important feature)</h2>
+      <p>
+        As soon as the water is fully expelled, thrust drops to zero almost instantly. At that moment:
+        <ul>
+          <li>Internal pressure collapses</li>
+          <li>Acceleration stops</li>
+          <li>Inertia differences dominate</li>
+        </ul>
+        <br>
+        This is where separation happnes.
+        <br><br>
+        Now, why does the separation works without mechanisms?
+        <br>
+        The payload (egg) section is heavier and forward-loaded. The propulsion section is lighter and rear-heavy. when the thrust ends:
+        <ul>
+          <li>The connection between them no longer experiences compressive force</li>
+          <li>Air drag immediately begins to pull them apart</li>
+          <li>No springs, no explosives, no timers</li>
+        </ul>
+        The rocket wants to separate. You simply allow it to. And by the way, this is not staging. . its permission
+      </p>
+    
+      <h2>The 180 degree flip is not an accident - it's designed</h2>
+      <p>
+        Once separated, the egg section flips nose-down almost immediately. Why?
+        <ul>
+          <li>The egg is the dominant mass</li>
+          <li>Drag acts behind the center of mass</li>
+          <li>Gravity finishes the job</li>
+        </ul>
+        <br>
+        This flip is critical because:
+        <ul>
+          <li>The parachute is now trailing naturally</li>
+          <li>No ejection force is needed</li>
+          <li>Tangling probability drops drastically</li>
+        </ul>
+        In other words: orientation solves deployment
+      </p>
+    
+      <h2>Bernoulli-assisted parachute deployment</h2>
+      <p>
+        Each section contains a parachute that is lightly retained, not locked. <br>
+        A small vent hole exists in the parachute compartment. Its purpose is not pressure equalization — it is <strong>pressure exploitation</strong>.<br>
+        When air moves rapidly around the rocket body:
+        <ul>
+          <li>Pressure outside the hole drops</li>
+          <li>Pressure inside the compartment remains higher</li>
+          <li>The parachute fabric is gently pulled outward</li>
+        </ul>
+        <br>
+        This effect becomes strongest:
+        <ul>
+          <li>at burnout (sudden airflow change)</li>
+          <li>During the flip</li>
+          <li>As descent begins</li>
+        </ul>
+        <br>
+        the hole does not "push" the parachute out. It <strong>removes resistance</strong>
+        <div class="figure">
+          <img src="/assets/chute.jpg" alt="The Realistic Chute">
+          <div class="caption">
+            No math, just logic parachute deployment
+          </div>
+        </div>
+        <div class="note">
+          That's the difference between control and cooperation
+        </div>
+      </p>
+      
+      <h2>What Actually needs tuning! (and what doesn't)</h2>
+      <p>
+        Tuning is subjective. for instance, have two parachutes for both separated bodies. just for aerodynamic hygiene (no body free-fall),<br> 
+        The other is egg protection - any protection works btw. just the key principle of, the egg must not touch hard structure as this turns a sharp impact into a long deceleration. that's why tissue, foam, sponge, cotton all work!<br>
+        Some example that needs tuning base on my experience are:
+        <ul>
+          <li>Mass distribution (as this controls the flip)</li>
+          <li>Vent hole size (this controls deployment timing)</li>
+          <li>Parachute packing friction</li>
+        </ul>  
+        <br>
+        then, what does NOT need tuning:
+        <ul>
+          <li>Exact cushion material, fancy mechanims, perfect symmetry.</li>
+        </ul>
+        IF your design require precision machining, you missed the point.
+      </p>
+    
+      <h2>How to modify this design intelligently</h2>
+      <p>
+        Want changes? Change the <strong>Effects</strong>, not parts.
+        <br>
+        Example are:
+        <ul>
+          <li>Want earlier deployment? Increase airflow acccess or reduce retention</li>
+          <li>Want faster flip? Move mass forward</li>
+          <li>want slower descent? increase canopy area, not line length</li>
+        </ul>
+      <div class="note">
+        Every modification should answer one question: "What physical behavior am i changing?"
+      </div>
+        If you can't answer that, dont build it.
+      </p>
+    
+      <h2 id="pad">Water Rocket Launcher Pad</h2>
+      <p>
+        Of all the water-rocket launch pad designs on the internet — from backyard DIY rigs up to research papers. .  . The <a href="https://www.instructables.com/PVC-Water-Rocket-Launch-Pad-With-Gardena-Connector/">PVC Water Rocket Launch Pad with Gardena Connector</a> stands out as the <strong>cream of the crop</strong>!
+        <br>
+        Why?
+        <br>
+      <div class="figure">
+        <img src="/assets/pad.gif" alt="Launch!!">
         <div class="caption">
-          No math, just logic parachute deployment
+            This design provides a simple, safe, repeatable, and fairly high-performance launch pad ideal for hobby water rockets!
         </div>
       </div>
-      <div class="note">
-        That's the difference between control and cooperation
-      </div>
-    </p>
+        <br>  
+        Because it solves the core challenges of water rocket launching with elegant simplicity and reliable performance; a pressure-rated quick-connect that both seals and releases cleanly, a sturdy PVC framework that keeps rockets straight, and a built-in pressurization path that lets you pump up the rocket without fiddling under pressure. Instead of jury-rigged clamps or finicky cable-ties, this design uses parts engineered for pressure and fast release, resulting in a launch system that is safer, more consistent, easier to build, and easier to use than almost any other you’ll find online.
+        <br>  
+      </p>
     
-    <h2>What Actually needs tuning! (and what doesn't)</h2>
-    <p>
-      Tuning is subjective. for instance, have two parachutes for both separated bodies. just for aerodynamic hygiene (no body free-fall),<br> 
-      The other is egg protection - any protection works btw. just the key principle of, the egg must not touch hard structure as this turns a sharp impact into a long deceleration. that's why tissue, foam, sponge, cotton all work!<br>
-      Some example that needs tuning base on my experience are:
-      <ul>
-        <li>Mass distribution (as this controls the flip)</li>
-        <li>Vent hole size (this controls deployment timing)</li>
-        <li>Parachute packing friction</li>
-      </ul>  
-      <br>
-      then, what does NOT need tuning:
-      <ul>
-        <li>Exact cushion material, fancy mechanims, perfect symmetry.</li>
-      </ul>
-      IF your design require precision machining, you missed the point.
-    </p>
-  
-    <h2>How to modify this design intelligently</h2>
-    <p>
-      Want changes? Change the <strong>Effects</strong>, not parts.
-      <br>
-      Example are:
-      <ul>
-        <li>Want earlier deployment? Increase airflow acccess or reduce retention</li>
-        <li>Want faster flip? Move mass forward</li>
-        <li>want slower descent? increase canopy area, not line length</li>
-      </ul>
-    <div class="note">
-      Every modification should answer one question: "What physical behavior am i changing?"
-    </div>
-      If you can't answer that, dont build it.
-    </p>
-  
-    <h2 id="pad">Water Rocket Launcher Pad</h2>
-    <p>
-      Of all the water-rocket launch pad designs on the internet — from backyard DIY rigs up to research papers. .  . The <a href="https://www.instructables.com/PVC-Water-Rocket-Launch-Pad-With-Gardena-Connector/">PVC Water Rocket Launch Pad with Gardena Connector</a> stands out as the <strong>cream of the crop</strong>!
-      <br>
-      Why?
-      <br>
-    <div class="figure">
-      <img src="/assets/pad.gif" alt="Launch!!">
-      <div class="caption">
-          This design provides a simple, safe, repeatable, and fairly high-performance launch pad ideal for hobby water rockets!
+      <h2>Why this design works?</h2>
+      <p>
+        At its core, a water rocket launcher must satisfy a few critical requirements:
+        <ul>
+          <li>Hold the rocket securely while pressurizing</li>
+          <li>seal the pressure so tha air/water doesn't leak</li>
+          <li>Release the rocket reliably at a chosen moment</li>
+          <li>Keep the rocket stable and vertical for a straight launch</li>
+          <li>Be safe, portable, and relatively easy to build</li>
+        </ul>
+        This particular PVC + Gardena design addresses each of those beautifully with simple parts and clever geometry.
+      </p>
+    
+      <h2>Robust Pressure Connection: Gardena Quick-Connect</h2>
+      <p>
+        Instead of homemade clamps or the traditional Clark cable-tie release(Which often leaks!), this design uses a standard Gardena garden hose quick-connect (EVEN ANY OTHER GARDEN HOSE QUICK CONNECT THAT YOU CAN BUY LOCALLY WILL DO AS WELL!) fitting as the core of the pressurized connection.
+        <br>
+        why this matters?
+        <ul>
+          <li>Pre-engineered sealing system: Gardena connectors are meant for holding pressurized water in garden systems. That means they are built to hold pressure and seal air/water reliably without DIY tricks</li>
+          <li>Easy quick release: the collar on the connector naturally releases when pulled. . . no tricky clamp adjustments or fragile zip-tie tricks. This makes the launch action clean and dependable.</li>
+          <li>Compatible with hose and pump installation: The design embeds a hose and inner pump hose + presta valve right inside the PVC structure to pump air into the rocket while its on the pad. . . so you can pressurize without moving the rocket off the launch tube.</li>
+        </ul>
+        In other words, the Gardena part serves as both the air delivery system and the hold-down release in one unit - much simplre than mechanical latches or cable tie hooks.
+      </p>
+    
+      <h2>PVC Framework Provides Structure and Stability</h2>
+      <p>
+        The PVC pieces, connectors, and corks form a tall rail/frame that keeps the rocket vertical. Now, why vertical matters?
+        <br>
+        When the rocket is launched, most of the initial thrust comes from downward-expelled wter and air. If the rocket isn't straight, that force can veer off, lowering altitude adn increasing unpredictability. A straight launch increases altitude and safety.
+        <br>
+        The design uses:
+        <ul>
+          <li>PVC pipe as the tall, rigid rail (guides the rocket)</li>
+          <li>O-rings and adjustable base spacers to center the rocket against the rail</li>
+          <li>Eyelets/cord lines to help keep the rocket aligned but not overyly constrained (so release is clean)</li>
+        </ul>
+        The modular frame also makes the launcher portable and stable -- light enough to carry and can be staked into the ground securely with tent pegs.
+      </p>
+    
+      <h2>PVC Framework Provides Structure and Stability</h2>
+      <p>
+        The PVC pieces, connectors, and corks form a tall rail/frame that keeps the rocket vertical. <strong>Why vertical matters</strong>? 
+        <br>
+        when the rocket is launched, most of the initial thrust comes from downward-expelled water and air. If the rocket isnt straight, that force can veer off, lowering altitude and increasing unpredictability. A straight launch increases altitude and safety.
+        <br>
+        The design uses:
+        <ul>
+          <li>PVC pipe as the tall, rigid rail (gauides the rocket)</li>
+          <li>O-rings and adjustable base spacers to center the rocket against the rail</li>
+          <li>Eyelets/cord lines to help keep the rocket aligned but not overly constrained (so release is clean)</li>
+        </ul>
+        The modular frame also makes the launcher portable and stable as it is light enough to carry and can be staked into the ground securely with tent pegs.
+      </p>
+    
+      <h2>Behind the scenes</h2>
+      <p>
+        Behind the scenes, this project moved through four tightly connected stages: <strong>CAD</strong>, <strong>Simulation</strong>, <strong>Physical construction</strong>, <strong>Teamwork</strong>. 
+        <br>
+        Interestingly, if the launcher itself isn’t stable, the rocket doesn’t really fly upward at all—it barely leaves the ground. It’s a small detail that’s easy to overlook, but it quietly reminds us how much the fundamentals matter. When things work, it’s tempting to take them for granted.
+        <br>
+      <div class="figure">
+        <img src="/assets/stability.png" alt="stability!!">
+        <div class="caption">
+          stable vs unstable rocket launch conditions
       </div>
+        The launcher was first modeled in CAD to lock down dimensions, tolerances, and part interfaces, ensuring it is aligned exactly as intended before anything was built.
+        <br><br>
+        A simplified 2D simulation followed to analyze the core physics. Stripping the system down to its essentials to verify that the design logic matched theoretical expectations.
+        <br><br>
+        The concept was then recreated in Unity3D, where timing, release behavior, and motion could be visualized dynamically, helping confirm stability and launch behavior in a more intuitive, interactive way.
+        <br><br>
+        Finally, the real-world build validated all prior steps: 
+        <ul>
+          <li>The launcher assembled cleanly</li>
+          <li>held the pressure reliably</li>
+          <li>behaved almost identically to the simulations</li>
+          <li>iterations of the adapter, where the only challenge so far.</li>
+        </ul>
+        <blockquote class="tiktok-embed"
+          cite="https://www.tiktok.com/@luisenrico9/video/7513590794880568594"
+          data-video-id="7513590794880568594"
+          style="max-width: 605px; min-width: 325px;">
+          <section>
+            <a target="_blank" href="https://www.tiktok.com/@luisenrico9">
+              @luisenrico9
+            </a>
+          </section>
+        </blockquote>
+  
+        <script async src="https://www.tiktok.com/embed.js"></script>
+  
+      </p>
     </div>
-      <br>  
-      Because it solves the core challenges of water rocket launching with elegant simplicity and reliable performance; a pressure-rated quick-connect that both seals and releases cleanly, a sturdy PVC framework that keeps rockets straight, and a built-in pressurization path that lets you pump up the rocket without fiddling under pressure. Instead of jury-rigged clamps or finicky cable-ties, this design uses parts engineered for pressure and fast release, resulting in a launch system that is safer, more consistent, easier to build, and easier to use than almost any other you’ll find online.
-      <br>  
-    </p>
-  
-    <h2>Why this design works?</h2>
-    <p>
-      At its core, a water rocket launcher must satisfy a few critical requirements:
-      <ul>
-        <li>Hold the rocket securely while pressurizing</li>
-        <li>seal the pressure so tha air/water doesn't leak</li>
-        <li>Release the rocket reliably at a chosen moment</li>
-        <li>Keep the rocket stable and vertical for a straight launch</li>
-        <li>Be safe, portable, and relatively easy to build</li>
-      </ul>
-      This particular PVC + Gardena design addresses each of those beautifully with simple parts and clever geometry.
-    </p>
-  
-    <h2>Robust Pressure Connection: Gardena Quick-Connect</h2>
-    <p>
-      Instead of homemade clamps or the traditional Clark cable-tie release(Which often leaks!), this design uses a standard Gardena garden hose quick-connect (EVEN ANY OTHER GARDEN HOSE QUICK CONNECT THAT YOU CAN BUY LOCALLY WILL DO AS WELL!) fitting as the core of the pressurized connection.
-      <br>
-      why this matters?
-      <ul>
-        <li>Pre-engineered sealing system: Gardena connectors are meant for holding pressurized water in garden systems. That means they are built to hold pressure and seal air/water reliably without DIY tricks</li>
-        <li>Easy quick release: the collar on the connector naturally releases when pulled. . . no tricky clamp adjustments or fragile zip-tie tricks. This makes the launch action clean and dependable.</li>
-        <li>Compatible with hose and pump installation: The design embeds a hose and inner pump hose + presta valve right inside the PVC structure to pump air into the rocket while its on the pad. . . so you can pressurize without moving the rocket off the launch tube.</li>
-      </ul>
-      In other words, the Gardena part serves as both the air delivery system and the hold-down release in one unit - much simplre than mechanical latches or cable tie hooks.
-    </p>
-  
-    <h2>PVC Framework Provides Structure and Stability</h2>
-    <p>
-      The PVC pieces, connectors, and corks form a tall rail/frame that keeps the rocket vertical. Now, why vertical matters?
-      <br>
-      When the rocket is launched, most of the initial thrust comes from downward-expelled wter and air. If the rocket isn't straight, that force can veer off, lowering altitude adn increasing unpredictability. A straight launch increases altitude and safety.
-      <br>
-      The design uses:
-      <ul>
-        <li>PVC pipe as the tall, rigid rail (guides the rocket)</li>
-        <li>O-rings and adjustable base spacers to center the rocket against the rail</li>
-        <li>Eyelets/cord lines to help keep the rocket aligned but not overyly constrained (so release is clean)</li>
-      </ul>
-      The modular frame also makes the launcher portable and stable -- light enough to carry and can be staked into the ground securely with tent pegs.
-    </p>
-  
-    <h2>PVC Framework Provides Structure and Stability</h2>
-    <p>
-      The PVC pieces, connectors, and corks form a tall rail/frame that keeps the rocket vertical. <strong>Why vertical matters</strong>? 
-      <br>
-      when the rocket is launched, most of the initial thrust comes from downward-expelled water and air. If the rocket isnt straight, that force can veer off, lowering altitude and increasing unpredictability. A straight launch increases altitude and safety.
-      <br>
-      The design uses:
-      <ul>
-        <li>PVC pipe as the tall, rigid rail (gauides the rocket)</li>
-        <li>O-rings and adjustable base spacers to center the rocket against the rail</li>
-        <li>Eyelets/cord lines to help keep the rocket aligned but not overly constrained (so release is clean)</li>
-      </ul>
-      The modular frame also makes the launcher portable and stable as it is light enough to carry and can be staked into the ground securely with tent pegs.
-    </p>
-  
-    <h2>Behind the scenes</h2>
-    <p>
-      Behind the scenes, this project moved through four tightly connected stages: <strong>CAD</strong>, <strong>Simulation</strong>, <strong>Physical construction</strong>, <strong>Teamwork</strong>. 
-      <br>
-      Interestingly, if the launcher itself isn’t stable, the rocket doesn’t really fly upward at all—it barely leaves the ground. It’s a small detail that’s easy to overlook, but it quietly reminds us how much the fundamentals matter. When things work, it’s tempting to take them for granted.
-      <br>
-    <div class="figure">
-      <img src="/assets/stability.png" alt="stability!!">
-      <div class="caption">
-        stable vs unstable rocket launch conditions
-    </div>
-      The launcher was first modeled in CAD to lock down dimensions, tolerances, and part interfaces, ensuring it is aligned exactly as intended before anything was built.
-      <br><br>
-      A simplified 2D simulation followed to analyze the core physics. Stripping the system down to its essentials to verify that the design logic matched theoretical expectations.
-      <br><br>
-      The concept was then recreated in Unity3D, where timing, release behavior, and motion could be visualized dynamically, helping confirm stability and launch behavior in a more intuitive, interactive way.
-      <br><br>
-      Finally, the real-world build validated all prior steps: 
-      <ul>
-        <li>The launcher assembled cleanly</li>
-        <li>held the pressure reliably</li>
-        <li>behaved almost identically to the simulations</li>
-        <li>iterations of the adapter, where the only challenge so far.</li>
-      </ul>
-    </p>
-  </div>  
-  <br>
+  </div>
+<br>
 <footer class="site-footer">
   <div class="footer-divider"></div>
 
