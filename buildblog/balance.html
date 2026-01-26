@@ -24,8 +24,8 @@
       <strong>Chapters</strong>
       <ul>
         <li><a href="https://luisenrico.github.io/projects.html">Back</a></li>
-        <li><a href="#problem">Problem definition and system goal</a></li>
-        <li><a href="#sys">System Architecture</a></li>
+        <li><a href="#problem">Problem definition and System's goal</a></li>
+        <li><a href="#sys">System Architecture and Design trade-offs</a></li>
         <li><a href="#analysis">CAD and Simulations</a></li>
         <li><a href="#results">Build Process</a></li>
         <li><a href="#lessons">Conclusion</a></li>
@@ -52,7 +52,7 @@
     
       <div class="note">
         <strong>However!</strong>
-        The goal is not merely to make the system balance, but to do so using sound physical reasoning, minimal but sufficient hardware, and a simulation-validated control pipeline, demonstrating a correct end-to-end engineering process from first principles to implementation.
+        The goal is not merely to make the system balance, but to do so using Engineering design process, proper assumptions that leads to design Trade-offs (minimal but sufficient hardware), and a simulation-validated control pipeline, demonstrating a correct end-to-end engineering process from first principles to implementation.
       </div> 
         
         I approached this project methodically from first principles, starting by clarifying the physical system (an underactuated, reaction-wheel–assisted inverted pendulum with a driven base wheel) before committing to any hardware or software decisions. We identified the correct actuation roles early distinguishing between the reaction wheel for fast angular momentum control and the base wheel for forward–backward stabilization and avoided unnecessary complexity by justifying a single encoder through rigid mechanical coupling.
@@ -95,12 +95,58 @@
 
         Thus, we are looking at to design and implement a single-axis, underactuated inverted pendulum stabilized through coordinated reaction-wheel and base-wheel actuation, using onboard sensing and embedded control, with <u>stability and disturbance rejection as the primary performance metrics</u>.
       </p>
-      <!-- Build -->
-      <h2 id="build">3. The math</h2>
+    
+      <!-- design trade-offs -->
+      <h2 id="build">System Architecture and Design Trade-off's</h2>
     
       <p>
-        The flapping mechanism uses a crank-slider driven directly by a coreless motor
-        Wing spars are light wooden material.
+        After the problem was correctly identified as a single-axis, reaction-wheel–assisted inverted pendulum, the primary challenge shifted from abstract definition to architecting a system that could physically realize the intended dynamics without introducing unnecessary complexity or failure modes.
+        <br>
+        At this stage, the difficulty was not knowing what components existed, <i>but determining which components were actually justified by the physics of the system</i>.
+        <br>
+        Multiple candidate architectures were explored implicitly through questions about:
+        <ul>
+          <li>Motors</li>
+          <li>Encoders</li>
+          <li>Drivers</li>
+          <li>IMUs</li>
+          <li>Power Regulation</li>
+        </ul>
+        <div class="note">
+          Reflecting an underlying uncertainty about how much actuation, sensing, and computation the system truly required.
+        </div>
+
+        <br>
+        This led to an iterative refinement process in which components were repeatedly added, questioned, and in some cases discarded. . . not due to lack of availability, but because their role could not be clearly defended within the control framework.
+        <br><br>
+        Architecturally, the system converged toward a clear separation of roles: a base wheel responsible for slow, forward–backward translational correction, and a reaction wheel responsible for rapid angular momentum exchange to stabilize the pendulum body. This division was not immediately obvious and required explicit questioning of whether the base wheel should move at all, whether the system was closer to a self-balancing vehicle or a pure reaction-wheel pendulum, and what degree of motion was actually necessary to achieve stability. Only after resolving these questions did it become evident that the system was intentionally underactuated and that stability would emerge from exploiting dynamics rather than directly commanding all states.
+        <div class="figure">
+          <img src="/assets/notesbot.png" alt="notes">
+          <div class="caption">
+            “Slow translational DOF” on the base wheel and “fast angular momentum exchange” on the reaction wheel
+          </div>
+        </div>
+        <br><br>
+        Electronics selection underwent a comparable refinement. Initial consideration of higher-end microcontrollers and more feature-rich IMUs gave way to a focus on determinism, noise performance, and sufficiency. The ESP32 was selected not as a compromise, but because its timing capabilities, processing headroom, and ecosystem aligned with embedded control requirements without introducing the overhead of a full onboard computer. Likewise, the progression from consumer-grade IMUs to the BMI088 reflected a growing awareness that angular rate fidelity, bias stability, and predictable timing mattered more for balance control than integrated filtering or convenience features. Power architecture decisions followed the same logic: linear regulators and single-rail designs were rejected not because they were unusable, but because their inefficiency and noise characteristics conflicted with the realities of a LiPo-powered, motor-driven system. The resulting multi-stage regulation strategy emerged as a necessity rather than an embellishment.
+        <div class="figure">
+          <img src="/assets/electronicsbot.png" alt="notess">
+        </div>
+        <br><br>
+        Throughout this process, safety and reliability considerations were not treated as an afterthought but as implicit design constraints that influenced component choice. Concerns about current draw, thermal limits, and failure modes surfaced repeatedly in questions about drivers, regulators, and encoders, ultimately leading to conservative choices and the recognition that features such as physical power disconnects, current awareness, and staged bring-up were essential.
+        <br>
+        Importantly, these considerations were not imposed externally but arose naturally from grappling with how the system would behave when assumptions failed. . . when motors stalled, when sensors glitched, or when control loops were mis-tuned.
+        <br><br>
+        In retrospect, this phase was characterized less by indecision than by progressive constraint satisfaction.
+        <ul>
+          <li>each question narrowed the design space</li>
+          <li>each rejected option clarified the system's true requirements</li>
+          <li>each material choice became more defensible as the architecture stabilized</li>
+        </ul>
+        <div class="note">
+          What initially appeared as uncertainty about “what to buy” was, in fact, a deeper struggle to ensure that every physical component served a clear purpose within the dynamics and control structure of the system. This struggle was not a detour from engineering rigor; it was the mechanism by which rigor was achieved.
+        </div>
+        
+        
       </p>
     
     <div class="figure">
