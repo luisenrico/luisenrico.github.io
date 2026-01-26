@@ -39,7 +39,7 @@
       <h2>1. Introduction</h2>
       <p>
         The system consists of a vertical body whose natural equilibrium is unstable, stabilized through the coordinated action of a reaction wheel (to rapidly exchange angular momentum) and a base wheel (to provide forward–backward corrective motion).
-        <br>
+        <br><nr></nr>
         Unlike full mobile robots, the system is intentionally constrained to one primary degree of freedom, allowing the project to focus on fundamental control theory, dynamics modeling, and real-time embedded implementation rather than navigation or perception.
         <br>
       
@@ -55,7 +55,7 @@
         The goal is not merely to make the system balance, but to do so using sound physical reasoning, minimal but sufficient hardware, and a simulation-validated control pipeline, demonstrating a correct end-to-end engineering process from first principles to implementation.
       </div> 
         
-        I approached this project methodically from first principles, starting by clarifying the physical system (an underactuated, reaction-wheel–assisted inverted pendulum with a driven base wheel) before committing to any hardware or software decisions. We identified the correct actuation roles early—distinguishing between the reaction wheel for fast angular momentum control and the base wheel for forward–backward stabilization—and avoided unnecessary complexity by justifying a single encoder through rigid mechanical coupling.
+        I approached this project methodically from first principles, starting by clarifying the physical system (an underactuated, reaction-wheel–assisted inverted pendulum with a driven base wheel) before committing to any hardware or software decisions. We identified the correct actuation roles early distinguishing between the reaction wheel for fast angular momentum control and the base wheel for forward–backward stabilization and avoided unnecessary complexity by justifying a single encoder through rigid mechanical coupling.
     
       </p>
     
@@ -63,7 +63,7 @@
       <h2 id="problem">Problem Definition and System Goal</h2>
       <p>
         At the outset, the problem was not immediately well-defined as a classical inverted pendulum. Early design exploration involved multiple possible interpretations of the system’s function, including self-balancing vehicles, reaction-wheel–only stabilization mechanisms, and multi-motor balancing platforms. This ambiguity was not accidental but stemmed from the fact that the physical structure appeared to admit multiple actuation and sensing strategies, each suggesting a different control problem. Determining what the system fundamentally was rather than prematurely selecting components <u>became the first and most critical challenge</u>.
-        <br>
+        <br><br>
         Through iterative questioning, comparison with known control archetypes, and elimination of unnecessary degrees of freedom, the system was progressively distilled into its true form: an underactuated inverted pendulum with both reaction-wheel and base-wheel actuation, constrained intentionally to a single balance axis. This clarification step was essential, as attempting to solve the wrong problem formulation would have led to incorrect modeling, inappropriate hardware selection, and unstable control behavior.
       
       <div class="video">
@@ -73,15 +73,15 @@
           allowfullscreen>
         </iframe>
       </div>
-       
-        Now, the objective should be clearly looking like this, <u>design a physically realizable inverted pendulum that can</u>:
+        <br>
+        Now clearly, the objective should be like this, <i>design a physically realizable inverted pendulum</i> that can:
       <ul>
         <li>Balance upright</li>
         <li>Reject disturbances</li>
         <li>Remain stable using onboard sensing and actuation</li>
       </ul>
 
-        The following contraints are:
+        Then contraints are:
       <ul>
         <li>emphasis on correctness over complexity</li>
         <li>Underactuated system</li>
