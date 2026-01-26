@@ -26,7 +26,7 @@
         <li><a href="https://luisenrico.github.io/projects.html">Back</a></li>
         <li><a href="#problem">Problem definition and System's goal</a></li>
         <li><a href="#sys">System Architecture and Design trade-offs</a></li>
-        <li><a href="#analysis">CAD and Simulations</a></li>
+        <li><a href="#cad">CAD and Simulations</a></li>
         <li><a href="#results">Build Process</a></li>
         <li><a href="#lessons">Conclusion</a></li>
       </ul>
@@ -149,52 +149,50 @@
         
       </p>
     
-    <div class="figure">
-      <img src="/assets/orni.gif" alt="Flapping mechanism">
-      <div class="caption">
-        3D model of an ornithopter
-      </div>
-    </div>
+  
     
-    <div class="video">
-      <iframe
-        src="https://www.youtube.com/embed/-S60dQb1FvU"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </div>
-    
-    
-      <!-- Analysis -->
-      <h2 id="analysis">4. Analysis and Observations</h2>
+      <!-- CAD -->
+      <h2 id="analysis">CAD and Simulations</h2>
     
       <p>
-        At peak motor speed, the flapping frequency reached approximately 6 Hz.
-        Significant torsional oscillation was observed in the wing spars,
-        indicating under-designed stiffness.
+        The simulation pipeline was deliberately structured to mirror the physical realities and constraints of the system rather than to maximize software sophistication. Given that the project’s objective is to realize a physically buildable, underactuated reaction-wheel–assisted inverted pendulum, the simulation environment had to satisfy three non-negotiable requirements:
+        <ul>
+          <li>Correct rigid-body dynamics</li>
+          <li>deterministic control-loop interaction</li>
+          <li>direct correspondence with embedded implementation</li>
+        </ul>
+        <br>
+        Thus, the selected pipeline will be CAD -> Physics-accurate simulator -> control validation -> optional visualization. . . was chosen because it preserves these requirements in the correct order of dependency.
+        <br><br>
+        
+        The process begins with Fusion 360, not because it is visually convenient, but because mass distribution, center-of-mass location, inertia tensor, and mechanical constraints are first-class citizens in a balance problem. Inverted pendulum stability is fundamentally governed by these properties, and any simulation that does not faithfully inherit them risks producing controllers that are mathematically correct but physically invalid. Exporting the mechanical model ensures that the simulator operates on the same geometry and inertia assumptions that will later be realized in hardware, preventing the common failure mode where control laws “work in simulation” but collapse when built.
+        <br><br>
+        MuJoCo was selected as the primary physics engine because it is explicitly optimized for underactuated, contact-rich, articulated systems with stiff dynamics, which precisely describes a reaction-wheel pendulum. Unlike general-purpose game engines, MuJoCo solves dynamics using implicit integration and constraint stabilization methods that remain numerically stable under high feedback gains and fast inner loops. This is not an aesthetic preference; it is a requirement. A reaction wheel produces stabilization through rapid angular momentum exchange, which introduces stiff differential equations that simpler physics engines often approximate or damp out. Using MuJoCo avoids tuning controllers around simulation artifacts that would not exist in reality.
+        <br><br>
+        <div class="figure">
+          <img src="/assets/simulationbot.png" alt="notess">
+        </div>
+        <br><br>
+        ROS 2 is included only where it provides architectural value, not as a dependency for its own sake. Its role is to structure sensor streams, actuator commands, and state estimation in a way that mirrors the eventual embedded control decomposition. This allows the same conceptual data flow—IMU → estimator → controller → motor command—to be validated under realistic timing assumptions. Importantly, ROS 2 is not used to “control the robot” in simulation, but to verify that the system architecture scales cleanly from simulation to hardware without hidden coupling or timing assumptions. Critics often conflate ROS usage with unnecessary abstraction; here, it is used minimally and deliberately.
+        <br><br>
+        Unity3D is positioned at the end of the pipeline and is explicitly not used for dynamics or control validation. Its inclusion is justified solely for visualization, educational communication, and human-in-the-loop inspection. Using Unity earlier in the pipeline would contaminate the control design with non-physical dynamics and frame-dependent artifacts. By relegating it to visualization, the project avoids the common trap of validating stability in a visually convincing but dynamically inaccurate environment. Unity’s role is explanatory, not authoritative.
+        <br><br>
+        Alternatives such as Gazebo, NVIDIA Isaac Sim, or O3DE were considered but deprioritized for concrete reasons. Gazebo, while tightly integrated with ROS, relies on physics engines that struggle with stiff, high-gain systems unless heavily tuned, which shifts effort away from control design and toward simulator compensation. Isaac Sim introduces GPU-level complexity, driver dependencies, and an implicit assumption of high-performance computing resources that are fundamentally misaligned with a project constrained to an embedded microcontroller and LiPo power. O3DE, similarly, excels at large-scale simulation and visualization but offers no inherent advantage in accurately modeling the narrow, fast dynamics of a single-axis balance system.
+        <br><br>
+        In summary, the simulation pipeline is defensible because it is physics-first, control-driven, and implementation-aware. Each tool is used only where its strengths are essential, and no tool is asked to perform outside its domain of validity. The pipeline does not attempt to impress with breadth; it aims to minimize the gap between mathematical control design, simulated behavior, and real-world execution. Any simpler pipeline would risk invalid assumptions, and any more complex pipeline would introduce dependencies that do not survive contact with embedded hardware.
+
       </p>
-    
-      <div class="note">
-        <strong>Key Insight:</strong>
-        Structural compliance dominated aerodynamic effects, masking any lift
-        gains from increased flapping frequency.
-      </div>
+  
     
       <!-- Results -->
       <h2 id="results">5. Results</h2>
     
-      <ul>
-        <li>Short hops achieved (&lt; 1 second)</li>
-        <li>No sustained flight</li>
-        <li>Mechanism reliability acceptable</li>
-      </ul>
     
       <!-- Lessons -->
       <h2 id="lessons">6. Lessons Learned and Next Steps</h2>
     
       <p>
-        Future iterations will prioritize wing torsional stiffness and introduce
-        passive twist via compliant joints rather than rigid spars.
+
       </p>
   </div>    
     <footer class="site-footer">
