@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Project Title – Build Blog One Ustp bot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=0.8">
+
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="cover-photo"></div>
+
+  <div class="main-content">
+      <h1> One Ustp bot </h1>
+      <div class="date">January 2026</div>
+    
+      <p class="desc">
+        This project concerns the design and validation of a reaction-wheel–assisted, wheel-driven inverted pendulum, a classic underactuated nonlinear control system.
+      </p>
+    <nav class="toc">
+      <strong>Chapters</strong>
+      <ul>
+        <li><a href="https://luisenrico.github.io/projects.html">Back</a></li>
+        <li><a href="#problem">Problem definition and system goal</a></li>
+        <li><a href="#sys">System Architecture</a></li>
+        <li><a href="#analysis">CAD and Simulations</a></li>
+        <li><a href="#results">Build Process</a></li>
+        <li><a href="#lessons">Conclusion</a></li>
+      </ul>
+    </nav>
+      
+      
+      <div class="divider"></div>
+    
+      <!-- Context -->
+      <h2>1. Introduction</h2>
+      <p>
+        The system consists of a vertical body whose natural equilibrium is unstable, stabilized through the coordinated action of a reaction wheel (to rapidly exchange angular momentum) and a base wheel (to provide forward–backward corrective motion).
+        <br>
+        Unlike full mobile robots, the system is intentionally constrained to one primary degree of freedom, allowing the project to focus on fundamental control theory, dynamics modeling, and real-time embedded implementation rather than navigation or perception.
+        <br>
+      
+      <div class="figure">
+        <img src="/assets/bot.gif" alt="CAD">
+        <div class="caption">
+          This is inspired by the work of Chinese Engineer <a href="https://github.com/peng-zhihui/ONE-Robot"> Peng Zhihui </a> 
+        </div>
+      </div>
+    
+      <div class="note">
+        <strong>However!</strong>
+        The goal is not merely to make the system balance, but to do so using sound physical reasoning, minimal but sufficient hardware, and a simulation-validated control pipeline, demonstrating a correct end-to-end engineering process from first principles to implementation.
+      </div> 
+        
+        I approached this project methodically from first principles, starting by clarifying the physical system (an underactuated, reaction-wheel–assisted inverted pendulum with a driven base wheel) before committing to any hardware or software decisions. We identified the correct actuation roles early—distinguishing between the reaction wheel for fast angular momentum control and the base wheel for forward–backward stabilization—and avoided unnecessary complexity by justifying a single encoder through rigid mechanical coupling.
+    
+      </p>
+    
+      <!-- Assumptions -->
+      <h2 id="problem">Problem Definition and System Goal</h2>
+      <p>
+        At the outset, the problem was not immediately well-defined as a classical inverted pendulum. Early design exploration involved multiple possible interpretations of the system’s function, including self-balancing vehicles, reaction-wheel–only stabilization mechanisms, and multi-motor balancing platforms. This ambiguity was not accidental but stemmed from the fact that the physical structure appeared to admit multiple actuation and sensing strategies, each suggesting a different control problem. Determining what the system fundamentally was rather than prematurely selecting components <u>became the first and most critical challenge</u>.
+        <br>
+        Through iterative questioning, comparison with known control archetypes, and elimination of unnecessary degrees of freedom, the system was progressively distilled into its true form: an underactuated inverted pendulum with both reaction-wheel and base-wheel actuation, constrained intentionally to a single balance axis. This clarification step was essential, as attempting to solve the wrong problem formulation would have led to incorrect modeling, inappropriate hardware selection, and unstable control behavior.
+      
+      <div class="video">
+        <iframe
+          src="https://www.youtube.com/embed/_4kP0W0grwc"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+       
+        Now, the objective should be clearly looking like this, <u>design a physically realizable inverted pendulum that can</u>:
+      <ul>
+        <li>Balance upright</li>
+        <li>Reject disturbances</li>
+        <li>Remain stable using onboard sensing and actuation</li>
+      </ul>
+
+        The following contraints are:
+      <ul>
+        <li>emphasis on correctness over complexity</li>
+        <li>Underactuated system</li>
+        <li>Embedded microcontroller control (non-industrial use)</li>
+      </ul>
+    
+    <div class="note">
+        <strong>Crucially</strong>
+        the objective was not to optimize for speed, autonomy, or navigation, but to demonstrate correct control behavior grounded in accurate physical modeling.
+    </div>
+
+        Thus, we are looking at to design and implement a single-axis, underactuated inverted pendulum stabilized through coordinated reaction-wheel and base-wheel actuation, using onboard sensing and embedded control, with <u>stability and disturbance rejection as the primary performance metrics</u>.
+      </p>
+      <!-- Build -->
+      <h2 id="build">3. The math</h2>
+    
+      <p>
+        The flapping mechanism uses a crank-slider driven directly by a coreless motor
+        Wing spars are light wooden material.
+      </p>
+    
+    <div class="figure">
+      <img src="/assets/orni.gif" alt="Flapping mechanism">
+      <div class="caption">
+        3D model of an ornithopter
+      </div>
+    </div>
+    
+    <div class="video">
+      <iframe
+        src="https://www.youtube.com/embed/-S60dQb1FvU"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    
+    
+      <!-- Analysis -->
+      <h2 id="analysis">4. Analysis and Observations</h2>
+    
+      <p>
+        At peak motor speed, the flapping frequency reached approximately 6 Hz.
+        Significant torsional oscillation was observed in the wing spars,
+        indicating under-designed stiffness.
+      </p>
+    
+      <div class="note">
+        <strong>Key Insight:</strong>
+        Structural compliance dominated aerodynamic effects, masking any lift
+        gains from increased flapping frequency.
+      </div>
+    
+      <!-- Results -->
+      <h2 id="results">5. Results</h2>
+    
+      <ul>
+        <li>Short hops achieved (&lt; 1 second)</li>
+        <li>No sustained flight</li>
+        <li>Mechanism reliability acceptable</li>
+      </ul>
+    
+      <!-- Lessons -->
+      <h2 id="lessons">6. Lessons Learned and Next Steps</h2>
+    
+      <p>
+        Future iterations will prioritize wing torsional stiffness and introduce
+        passive twist via compliant joints rather than rigid spars.
+      </p>
+  </div>    
+    <footer class="site-footer">
+      <div class="footer-divider"></div>
+    
+      <p>
+        © 2026 Luis Enrico Nicolas. All rights reserved.
+      </p>
+    
+      <p class="powered">
+        Built and documented by the author. Powered by <a href="https://github.com/">github</a>.
+      </p>
+    </footer>
+</body>
+</html>
