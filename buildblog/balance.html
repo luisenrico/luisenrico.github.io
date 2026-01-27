@@ -193,10 +193,10 @@
           <li>underactuated</li>
           <li>margin-limited</li>
         </ul>
-        <br>
+        
         and therefore cannot tolerate ad-hoc or tightly coupled software. The ESP32 is not treated as a general-purpose microcontroller but as a real-time control executor whose primary obligation is deterministic behavior. For this reason, the firmware is organized as a layered, time-partitioned system in which sensing, estimation, control, actuation, and supervision are strictly separated.
-        <br>
-        thus, the structure is that are common failure modes in embedded balance systems in which:
+        <br><br>
+        Thus, the structure is that it catered the common failure modes in embedded balance systems in which:
         <ul>
           <li>it directly mitigates latency coupling</li>
           <li>priority inversion</li>
@@ -221,6 +221,7 @@
         <i>The ESP32 firmware</i> is structured as a deterministic real-time control system that repeatedly reads sensors → estimates the physical state → computes hierarchical control commands → enforces safety limits → drives the motors, all on fixed timing.
         <div class="note">
           Each part is isolated so that sensing, estimation, control, actuation, and safety cannot corrupt one another, ensuring that instability can only come from physics or tuning. . . <u>not from software structure</u>
+        </div>
       </p>
     
       <!-- Lessons -->
