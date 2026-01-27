@@ -27,7 +27,7 @@
         <li><a href="#problem">Problem definition and System's goal</a></li>
         <li><a href="#sys">System Architecture and Design trade-offs</a></li>
         <li><a href="#cad">CAD and Simulations</a></li>
-        <li><a href="#results">Build Process</a></li>
+        <li><a href="#code">The Code</a></li>
         <li><a href="#lessons">Conclusion</a></li>
       </ul>
     </nav>
@@ -185,11 +185,46 @@
   
     
       <!-- Results -->
-      <h2 id="results">5. Results</h2>
-    
+      <h2 id="code">The Code</h2>
+      <p>
+        The firmware architecture was designed under the explicit assumption that the system is:
+        <ul>
+          <li>nonlinear</li>
+          <li>underactuated</li>
+          <li>margin-limited</li>
+        </ul>
+        <br>
+        and therefore cannot tolerate ad-hoc or tightly coupled software. The ESP32 is not treated as a general-purpose microcontroller but as a real-time control executor whose primary obligation is deterministic behavior. For this reason, the firmware is organized as a layered, time-partitioned system in which sensing, estimation, control, actuation, and supervision are strictly separated.
+        <br>
+        thus, the structure is that are common failure modes in embedded balance systems in which:
+        <ul>
+          <li>it directly mitigates latency coupling</li>
+          <li>priority inversion</li>
+          <li>control loop instability</li>
+        </ul>
+
+        A deliberate design choice was made to isolate all hardware-specific logic into a hardware abstraction layer that exposes time-stamped, unit-consistent sensor data and bounded actuator interfaces. This ensures that the control logic cannot depend on electrical implementation details such as PWM polarity, bus timing, or driver latency. From a defensive standpoint, this eliminates an entire class of hidden assumptions that often invalidate experimental results when hardware revisions occur. Any criticism that this abstraction introduces overhead is neutralized by the fact that the system’s control bandwidth is orders of magnitude below the ESP32’s computational ceiling, while determinism and clarity are not.
+        <br><br>
+        State estimation is treated as an explicit computational layer rather than being embedded inside the controller. This separation is critical because it allows estimator validity to be evaluated independently of control performance. In practical terms, this means the system can detect whether instability originates from incorrect state perception or from inappropriate control gains. Many balance projects fail precisely because estimation and control errors are inseparable; this architecture prevents that ambiguity. Furthermore, the estimator operates on physically meaningful state variables that map directly to the equations of motion used in simulation, closing the gap between modeled and real behavior.
+        <br><br>
+        The control strategy itself is intentionally hierarchical rather than monolithic, reflecting the physical asymmetry between the actuators. The reaction wheel is assigned responsibility for fast angular stabilization, while the base wheel governs long-term equilibrium and reaction-wheel desaturation. This division prevents actuator conflict and avoids the false assumption that both actuators can or should respond on the same time scale. From a control-theoretic perspective, this reduces cross-coupling and simplifies gain tuning by aligning controller structure with physical causality. Any alternative flat or fully coupled control approach would increase sensitivity to modeling error and reduce robustness.
+        <br>
+        <div class="figure">
+          <img src="/assets/codebot.png" alt="code">
+        </div>
+        Actuation is mediated through a dedicated enforcement layer that applies saturation, rate limiting, and enable logic before commands reach the motor drivers. This decision explicitly acknowledges that control outputs are mathematical constructs, not guaranteed-safe electrical signals. By enforcing physical constraints at the boundary between control and hardware, the system remains stable even under estimator transient errors, startup conditions, or numerical anomalies. This also ensures that safety behavior is invariant with respect to controller tuning, which is a critical requirement in systems that are actively iterated during development.
+        <br><br>
+        Safety and supervision are not implemented as exception handling but as continuously evaluated control overrides. The firmware assumes that faults will occur. . sensor dropouts, undervoltage events, or saturation and defines deterministic responses for each. This approach avoids undefined behavior and removes the need for operator intervention during failure. Importantly, safety logic is architecturally privileged: it can suppress or override control outputs regardless of software state. This prevents the common failure mode where a “safe” system still executes unsafe commands due to task scheduling or logic ordering.
+        <br><br>
+        Finally, telemetry is treated as a controlled, low-priority subsystem that never interferes with real-time execution. All observability is derived from already-computed internal states rather than from additional computation or blocking I/O. This design ensures that diagnostic visibility does not compromise control stability. The explicit alignment between simulation states, firmware states, and logged telemetry eliminates interpretive ambiguity when results are shared publicly or evaluated by third parties.
+        <br><br>
+        <i>The ESP32 firmware</i> is structured as a deterministic real-time control system that repeatedly reads sensors → estimates the physical state → computes hierarchical control commands → enforces safety limits → drives the motors, all on fixed timing.
+        <div class="note">
+          Each part is isolated so that sensing, estimation, control, actuation, and safety cannot corrupt one another, ensuring that instability can only come from physics or tuning. . . <u>not from software structure</u>
+      </p>
     
       <!-- Lessons -->
-      <h2 id="lessons">6. Lessons Learned and Next Steps</h2>
+      <h2 id="lessons">Conclusion</h2>
     
       <p>
 
