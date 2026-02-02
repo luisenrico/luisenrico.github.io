@@ -7,13 +7,13 @@ Github pages has its ups and down, such as its limitation - GitHub Pages is not 
 But I kind of like it this way, because:
 1. Fast to load and easy to host
 2. Readable and modifiable without frameworks
-3. Content-first rather than UI-heav
+3. Content-first rather than UI-heavy
 
 
 
 
 
-# Steps
+# Steps to make your own as well!
 
 1. Create a Repository: Name it username.github.io, replacing username with your GitHub username.
 
