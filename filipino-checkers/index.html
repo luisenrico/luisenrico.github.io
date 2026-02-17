@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filipino Checkers vs Learning AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <p class="eyebrow">Browser Arena</p>
+      <h1>Filipino Checkers: Train the AI by Beating It</h1>
+      <p class="subtitle">Your main metric is simple: how many games you can win against a bot that keeps learning from your moves.</p>
+    </header>
+
+    <section class="metrics">
+      <article class="metric pride">
+        <p class="metric-label">Wins vs AI</p>
+        <p id="prideWins" class="metric-value">0</p>
+      </article>
+      <article class="metric">
+        <p class="metric-label">AI Wins</p>
+        <p id="aiWins" class="metric-value small">0</p>
+      </article>
+      <article class="metric">
+        <p class="metric-label">Draws</p>
+        <p id="draws" class="metric-value small">0</p>
+      </article>
+      <article class="metric">
+        <p class="metric-label">Best Streak</p>
+        <p id="bestStreak" class="metric-value small">0</p>
+      </article>
+    </section>
+
+    <section class="arena">
+      <div class="board-panel">
+        <p id="statusText" class="status">Preparing board...</p>
+        <div id="board" class="board" role="grid" aria-label="Filipino checkers board"></div>
+      </div>
+
+      <aside class="side-panel">
+        <button id="newGameBtn" class="btn primary" type="button">New Game</button>
+        <button id="resetAiBtn" class="btn" type="button">Reset AI Memory</button>
+        <button id="resetStatsBtn" class="btn" type="button">Reset Win Stats</button>
+
+        <dl class="telemetry">
+          <div>
+            <dt>Games Played</dt>
+            <dd id="gamesPlayed">0</dd>
+          </div>
+          <div>
+            <dt>Current Streak</dt>
+            <dd id="currentStreak">0</dd>
+          </div>
+          <div>
+            <dt>AI Exploration</dt>
+            <dd id="epsilonValue">0%</dd>
+          </div>
+          <div>
+            <dt>Learned States</dt>
+            <dd id="stateCount">0</dd>
+          </div>
+        </dl>
+
+        <div class="rules">
+          <h2>Quick Rules</h2>
+          <p>Capture is mandatory. If a capture chain is available, you must continue with the same piece.</p>
+          <p>Men move diagonally forward. Kings move diagonally in all directions.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
