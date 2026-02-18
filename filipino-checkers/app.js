@@ -50,6 +50,7 @@ let board = [];
 let turn = "human";
 let selectedCell = null;
 let forcedPiece = null;
+let chainCaptured = new Set();
 let legalMoves = [];
 let gameOver = false;
 let halfMoveClock = 0;
@@ -109,6 +110,7 @@ function startNewGame(message) {
   turn = "human";
   selectedCell = null;
   forcedPiece = null;
+  chainCaptured = new Set();
   legalMoves = getAllMoves(board, "human");
   gameOver = false;
   halfMoveClock = 0;
@@ -166,7 +168,7 @@ function onBoardClick(event) {
 
   selectedCell = null;
   statusMessage = legalMoves.some((move) => move.isCapture)
-    ? "Capture is mandatory. Pick a piece that can capture."
+    ? "Capture is mandatory. Pick a piece on a longest capture line."
     : "Select a piece.";
   render();
 }
@@ -186,16 +188,11 @@ function findMoveFromSelected(targetRow, targetCol) {
 }
 
 function playHumanMove(move) {
-  applyMove(board, move);
-
-  const winnerAfterMove = detectWinner(board, halfMoveClock);
-  if (winnerAfterMove) {
-    finishGame(winnerAfterMove);
-    return;
-  }
+  applyStepMove(board, move);
 
   if (move.isCapture) {
-    const followUpCaptures = getAllMoves(board, "human", move.to).filter((candidate) => candidate.isCapture);
+    chainCaptured.add(cellKey(move.capture.r, move.capture.c));
+    const followUpCaptures = getAllMoves(board, "human", move.to, chainCaptured);
     if (followUpCaptures.length > 0) {
       forcedPiece = { r: move.to.r, c: move.to.c };
       selectedCell = { r: move.to.r, c: move.to.c };
@@ -204,6 +201,15 @@ function playHumanMove(move) {
       render();
       return;
     }
+  }
+
+  finalizeTurn(board, move.to, chainCaptured);
+  chainCaptured = new Set();
+
+  const winnerAfterMove = detectWinner(board, halfMoveClock);
+  if (winnerAfterMove) {
+    finishGame(winnerAfterMove);
+    return;
   }
 
   turn = "ai";
@@ -221,6 +227,8 @@ function runAiTurn() {
   }
 
   let chainFrom = null;
+  let aiChainCaptured = new Set();
+  let lastMove = null;
   let guard = 0;
 
   while (true) {
@@ -230,17 +238,20 @@ function runAiTurn() {
       return;
     }
 
-    const moves = getAllMoves(board, "ai", chainFrom);
+    const moves = getAllMoves(board, "ai", chainFrom, aiChainCaptured);
     if (moves.length === 0) {
       finishGame("human", "AI has no legal moves.");
       return;
     }
 
-    const stateKey = serializeState(board, chainFrom);
+    const stateKey = serializeState(board, chainFrom, aiChainCaptured);
     const picked = pickAiMove(stateKey, moves);
-    const materialBefore = evaluateMaterial(board);
-    applyMove(board, picked.move);
-    const materialAfter = evaluateMaterial(board);
+    const materialBefore = evaluateMaterial(board, aiChainCaptured);
+    applyStepMove(board, picked.move);
+    if (picked.move.isCapture) {
+      aiChainCaptured.add(cellKey(picked.move.capture.r, picked.move.capture.c));
+    }
+    const materialAfter = evaluateMaterial(board, aiChainCaptured);
 
     aiEpisode.push({
       state: stateKey,
@@ -248,14 +259,10 @@ function runAiTurn() {
       reward: materialAfter - materialBefore
     });
 
-    const winnerAfterMove = detectWinner(board, halfMoveClock);
-    if (winnerAfterMove) {
-      finishGame(winnerAfterMove);
-      return;
-    }
+    lastMove = picked.move;
 
     if (picked.move.isCapture) {
-      const nextCaptures = getAllMoves(board, "ai", picked.move.to).filter((candidate) => candidate.isCapture);
+      const nextCaptures = getAllMoves(board, "ai", picked.move.to, aiChainCaptured);
       if (nextCaptures.length > 0) {
         chainFrom = { r: picked.move.to.r, c: picked.move.to.c };
         continue;
@@ -265,9 +272,23 @@ function runAiTurn() {
     break;
   }
 
+  if (!lastMove) {
+    finishGame("human", "AI has no legal moves.");
+    return;
+  }
+
+  finalizeTurn(board, lastMove.to, aiChainCaptured);
+
+  const winnerAfterMove = detectWinner(board, halfMoveClock);
+  if (winnerAfterMove) {
+    finishGame(winnerAfterMove);
+    return;
+  }
+
   turn = "human";
   forcedPiece = null;
   selectedCell = null;
+  chainCaptured = new Set();
   legalMoves = getAllMoves(board, "human");
 
   if (legalMoves.length === 0) {
@@ -276,7 +297,7 @@ function runAiTurn() {
   }
 
   statusMessage = legalMoves.some((move) => move.isCapture)
-    ? "Your turn. Capture is mandatory."
+    ? "Your turn. Capture is mandatory (longest line)."
     : "Your turn. Select a piece.";
   render();
 }
@@ -291,6 +312,7 @@ function finishGame(winner, reason) {
   legalMoves = [];
   selectedCell = null;
   forcedPiece = null;
+  chainCaptured = new Set();
 
   if (winner === "human") {
     stats.humanWins += 1;
@@ -379,13 +401,14 @@ function detectWinner(boardState, moveClock) {
   return null;
 }
 
-function getAllMoves(boardState, player, forcedFrom) {
+function getAllMoves(boardState, player, forcedFrom, capturedSet) {
   if (forcedFrom) {
     const piece = boardState[forcedFrom.r] && boardState[forcedFrom.r][forcedFrom.c];
     if (!piece || ownerOf(piece) !== player) {
       return [];
     }
-    return generateCaptureMovesForPiece(boardState, forcedFrom.r, forcedFrom.c);
+    const forcedCaptures = generateCaptureMovesForPiece(boardState, forcedFrom.r, forcedFrom.c, capturedSet);
+    return filterMaxCaptureMoves(boardState, forcedCaptures, capturedSet);
   }
 
   const captures = [];
@@ -398,7 +421,7 @@ function getAllMoves(boardState, player, forcedFrom) {
         continue;
       }
 
-      const pieceCaptures = generateCaptureMovesForPiece(boardState, row, col);
+      const pieceCaptures = generateCaptureMovesForPiece(boardState, row, col, capturedSet);
       if (pieceCaptures.length > 0) {
         captures.push(...pieceCaptures);
       } else {
@@ -407,13 +430,36 @@ function getAllMoves(boardState, player, forcedFrom) {
     }
   }
 
-  return captures.length > 0 ? captures : simpleMoves;
+  if (captures.length === 0) {
+    return simpleMoves;
+  }
+
+  return filterMaxCaptureMoves(boardState, captures, capturedSet);
 }
 
 function generateSimpleMovesForPiece(boardState, row, col) {
   const piece = boardState[row][col];
-  const dirs = getMoveDirections(piece);
   const moves = [];
+
+  if (isKing(piece)) {
+    for (const [dr, dc] of DIAGONALS) {
+      let nextRow = row + dr;
+      let nextCol = col + dc;
+      while (isInsideBoard(nextRow, nextCol) && boardState[nextRow][nextCol] === EMPTY) {
+        moves.push({
+          from: { r: row, c: col },
+          to: { r: nextRow, c: nextCol },
+          isCapture: false,
+          capture: null
+        });
+        nextRow += dr;
+        nextCol += dc;
+      }
+    }
+    return moves;
+  }
+
+  const dirs = getMoveDirections(piece);
 
   for (const [dr, dc] of dirs) {
     const nextRow = row + dr;
@@ -436,11 +482,15 @@ function generateSimpleMovesForPiece(boardState, row, col) {
   return moves;
 }
 
-function generateCaptureMovesForPiece(boardState, row, col) {
+function generateCaptureMovesForPiece(boardState, row, col, capturedSet) {
   const piece = boardState[row][col];
   const player = ownerOf(piece);
   if (!player) {
     return [];
+  }
+
+  if (isKing(piece)) {
+    return generateKingCaptureMoves(boardState, row, col, player, capturedSet);
   }
 
   const moves = [];
@@ -455,7 +505,7 @@ function generateCaptureMovesForPiece(boardState, row, col) {
     }
 
     const middlePiece = boardState[middleRow][middleCol];
-    if (!middlePiece || ownerOf(middlePiece) === player) {
+    if (!middlePiece || ownerOf(middlePiece) === player || isCapturedSquare(capturedSet, middleRow, middleCol)) {
       continue;
     }
     if (boardState[landingRow][landingCol] !== EMPTY) {
@@ -473,22 +523,129 @@ function generateCaptureMovesForPiece(boardState, row, col) {
   return moves;
 }
 
-function applyMove(boardState, move) {
+function generateKingCaptureMoves(boardState, row, col, player, capturedSet) {
+  const moves = [];
+
+  for (const [dr, dc] of DIAGONALS) {
+    let cursorRow = row + dr;
+    let cursorCol = col + dc;
+    let enemy = null;
+
+    while (isInsideBoard(cursorRow, cursorCol)) {
+      const piece = boardState[cursorRow][cursorCol];
+      if (piece === EMPTY) {
+        if (enemy) {
+          moves.push({
+            from: { r: row, c: col },
+            to: { r: cursorRow, c: cursorCol },
+            isCapture: true,
+            capture: { r: enemy.r, c: enemy.c }
+          });
+        }
+        cursorRow += dr;
+        cursorCol += dc;
+        continue;
+      }
+
+      if (isCapturedSquare(capturedSet, cursorRow, cursorCol)) {
+        break;
+      }
+
+      if (ownerOf(piece) === player) {
+        break;
+      }
+
+      if (enemy) {
+        break;
+      }
+
+      enemy = { r: cursorRow, c: cursorCol };
+      cursorRow += dr;
+      cursorCol += dc;
+    }
+  }
+
+  return moves;
+}
+
+function filterMaxCaptureMoves(boardState, captureMoves, capturedSet) {
+  if (captureMoves.length <= 1) {
+    return captureMoves;
+  }
+
+  let bestLength = 0;
+  const scoredMoves = [];
+
+  for (const move of captureMoves) {
+    const totalCaptures = countCaptureSequenceLength(boardState, move, capturedSet);
+    scoredMoves.push({ move, totalCaptures });
+    bestLength = Math.max(bestLength, totalCaptures);
+  }
+
+  return scoredMoves
+    .filter((entry) => entry.totalCaptures === bestLength)
+    .map((entry) => entry.move);
+}
+
+function countCaptureSequenceLength(boardState, move, capturedSet) {
+  const nextBoard = cloneBoard(boardState);
+  applyStepMove(nextBoard, move);
+  const nextCaptured = addCapturedSquare(capturedSet, move.capture);
+  return 1 + countMaxCapturesFromSquare(nextBoard, move.to.r, move.to.c, nextCaptured);
+}
+
+function countMaxCapturesFromSquare(boardState, row, col, capturedSet) {
+  const nextCaptures = generateCaptureMovesForPiece(boardState, row, col, capturedSet);
+  if (nextCaptures.length === 0) {
+    return 0;
+  }
+
+  let best = 0;
+  for (const move of nextCaptures) {
+    const nextBoard = cloneBoard(boardState);
+    applyStepMove(nextBoard, move);
+    const chainedCaptured = addCapturedSquare(capturedSet, move.capture);
+    const total = 1 + countMaxCapturesFromSquare(nextBoard, move.to.r, move.to.c, chainedCaptured);
+    best = Math.max(best, total);
+  }
+
+  return best;
+}
+
+function applyStepMove(boardState, move) {
   const movingPiece = boardState[move.from.r][move.from.c];
   boardState[move.from.r][move.from.c] = EMPTY;
   boardState[move.to.r][move.to.c] = movingPiece;
+}
 
-  if (move.capture) {
-    boardState[move.capture.r][move.capture.c] = EMPTY;
+function finalizeTurn(boardState, finalSquare, capturedSet) {
+  if (capturedSet && capturedSet.size > 0) {
+    removeCapturedPieces(boardState, capturedSet);
     halfMoveClock = 0;
   } else {
     halfMoveClock += 1;
   }
 
-  if (movingPiece === HUMAN_MAN && move.to.r === 0) {
-    boardState[move.to.r][move.to.c] = HUMAN_KING;
-  } else if (movingPiece === AI_MAN && move.to.r === BOARD_SIZE - 1) {
-    boardState[move.to.r][move.to.c] = AI_KING;
+  crownIfEligible(boardState, finalSquare);
+}
+
+function removeCapturedPieces(boardState, capturedSet) {
+  for (const key of capturedSet) {
+    const [rowText, colText] = key.split(",");
+    const row = Number(rowText);
+    const col = Number(colText);
+    if (isInsideBoard(row, col)) {
+      boardState[row][col] = EMPTY;
+    }
+  }
+}
+
+function crownIfEligible(boardState, square) {
+  const piece = boardState[square.r][square.c];
+  if (piece === HUMAN_MAN && square.r === 0) {
+    boardState[square.r][square.c] = HUMAN_KING;
+  } else if (piece === AI_MAN && square.r === BOARD_SIZE - 1) {
+    boardState[square.r][square.c] = AI_KING;
   }
 }
 
@@ -521,10 +678,11 @@ function pickAiMove(stateKey, moves) {
   return best[Math.floor(Math.random() * best.length)];
 }
 
-function serializeState(boardState, chainFrom) {
+function serializeState(boardState, chainFrom, capturedSet) {
   const flat = boardState.flat().join("");
   const chainPart = chainFrom ? `${chainFrom.r}${chainFrom.c}` : "na";
-  return `ai|${chainPart}|${flat}`;
+  const capturedPart = serializeCapturedSet(capturedSet);
+  return `ai|${chainPart}|${capturedPart}|${flat}`;
 }
 
 function toActionKey(move) {
@@ -548,10 +706,15 @@ function setQValue(stateKey, actionKey, value) {
   rl.q[stateKey][actionKey] = value;
 }
 
-function evaluateMaterial(boardState) {
+function evaluateMaterial(boardState, capturedSet) {
   let score = 0;
-  for (const row of boardState) {
-    for (const piece of row) {
+  for (let row = 0; row < BOARD_SIZE; row += 1) {
+    for (let col = 0; col < BOARD_SIZE; col += 1) {
+      if (isCapturedSquare(capturedSet, row, col)) {
+        continue;
+      }
+
+      const piece = boardState[row][col];
       if (piece === AI_MAN) {
         score += 1;
       } else if (piece === AI_KING) {
@@ -615,6 +778,36 @@ function isAiPiece(piece) {
   return piece === AI_MAN || piece === AI_KING;
 }
 
+function isKing(piece) {
+  return piece === HUMAN_KING || piece === AI_KING;
+}
+
+function cloneBoard(boardState) {
+  return boardState.map((row) => row.slice());
+}
+
+function addCapturedSquare(capturedSet, capture) {
+  const nextCaptured = new Set(capturedSet || []);
+  if (capture) {
+    nextCaptured.add(cellKey(capture.r, capture.c));
+  }
+  return nextCaptured;
+}
+
+function isCapturedSquare(capturedSet, row, col) {
+  if (!capturedSet || capturedSet.size === 0) {
+    return false;
+  }
+  return capturedSet.has(cellKey(row, col));
+}
+
+function serializeCapturedSet(capturedSet) {
+  if (!capturedSet || capturedSet.size === 0) {
+    return "none";
+  }
+  return Array.from(capturedSet).sort().join(".");
+}
+
 function render() {
   renderBoard();
   statusTextEl.textContent = statusMessage;
@@ -663,6 +856,9 @@ function renderBoard() {
       }
       if (targetCells.has(key)) {
         cell.classList.add("target");
+      }
+      if (chainCaptured.has(key)) {
+        cell.classList.add("captured-pending");
       }
 
       const piece = board[row][col];
