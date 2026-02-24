@@ -391,6 +391,19 @@ hr {
 }
 
 
+/* GIF SIDE-BY-SIDE LAYOUT */
+
+.gif-row {
+    display: flex;
+    gap: 15px;              /* space between gifs */
+    margin: 15px 0;
+}
+
+.gif-row img {
+    width: 50%;             /* each takes half */
+    border-radius: 10px;
+    display: block;
+}
 
 
 
