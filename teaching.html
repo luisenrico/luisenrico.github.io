@@ -21,39 +21,46 @@
   
   <hr>
   
-  <div class="container">
+  <div id="teaching-section" class="container">
     <div class="ctitle">Teaching</div>
     
-    <div style="margin-bottom: 10px;">
-        I share <a href="https://www.facebook.com/LuisEnrico20">online</a> 3D CAD builds to empower makers, students and aspiring engineers.
-        
-        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <img src="assets/cad.png" alt="3D CAD teaching content" style="max-width:45%; border-radius:10px; margin-bottom: 20px;"/>
-          <img src="assets/facebook.png" alt="Facebook teaching posts" style="max-width:45%; border-radius:10px; margin-bottom: 20px;"/>
-        </div>
+    <div class="teaching-intro">
+      <p class="teaching-copy">
+        I share <a href="https://www.facebook.com/LuisEnrico20">online</a> 3D CAD builds to empower makers, students, and aspiring engineers.
+      </p>
+
+      <div class="teaching-gallery">
+        <img src="assets/cad.png" alt="3D CAD teaching content">
+        <img src="assets/facebook.png" alt="Facebook teaching posts">
+      </div>
     </div>
   
     <!-- Facebook Reel Embed -->
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0"></script>
   
-    <div class="fb-video" 
-         data-href="https://www.facebook.com/reel/749403878055043" 
-         data-width="500" 
-         data-show-text="true" 
-         style="margin: 20px auto; max-width: 100%;">
-    </div>
-  
-    <!-- YouTube Video Embed -->
-    <div style="margin: 20px auto; max-width: 100%; text-align: center;">
-      <iframe width="560" height="315" 
-              src="https://www.youtube.com/embed/5_gT4BZOZII" 
-              title="YouTube video player" 
-              frameborder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-              allowfullscreen 
-              style="width: 100%; max-width: 560px; height: 315px; border-radius: 10px;">
-      </iframe>
+    <div class="teaching-media-grid">
+      <div class="teaching-media-card">
+        <h3>Facebook Reel</h3>
+        <div class="fb-video" 
+             data-href="https://www.facebook.com/reel/749403878055043" 
+             data-width="500" 
+             data-show-text="true">
+        </div>
+      </div>
+
+      <!-- YouTube Video Embed -->
+      <div class="teaching-media-card">
+        <h3>YouTube Lesson</h3>
+        <div class="teaching-youtube-wrap">
+          <iframe src="https://www.youtube.com/embed/5_gT4BZOZII" 
+                  title="YouTube video player" 
+                  frameborder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  allowfullscreen>
+          </iframe>
+        </div>
+      </div>
     </div>
     
   </div>
@@ -67,5 +74,6 @@
     <p class="powered">
       Built and documented by the author. Powered by <a href="https://github.com/">github</a>.
     </p>
+  </footer>
 </body>
 </html>

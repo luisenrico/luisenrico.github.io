@@ -416,6 +416,85 @@ hr {
     }
 }
 
+/* Teaching page */
+#teaching-section .teaching-intro {
+    margin-bottom: 18px;
+}
+
+#teaching-section .teaching-copy {
+    margin: 0 0 14px 0;
+}
+
+#teaching-section .teaching-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+#teaching-section .teaching-gallery img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #3a3a3a;
+    background: #1f1f1f;
+}
+
+#teaching-section .teaching-media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+    margin-top: 18px;
+}
+
+#teaching-section .teaching-media-card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+#teaching-section .teaching-media-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #f0f0f0;
+}
+
+#teaching-section .teaching-media-card .fb-video {
+    margin: 0 auto;
+}
+
+#teaching-section .teaching-youtube-wrap {
+    width: 100%;
+}
+
+#teaching-section .teaching-youtube-wrap iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    border: 0;
+    border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+    #teaching-section .teaching-media-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    #teaching-section .teaching-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    #teaching-section .teaching-gallery img {
+        height: auto;
+    }
+}
+
 
 
 
