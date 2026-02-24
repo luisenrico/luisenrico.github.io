@@ -400,8 +400,8 @@ hr {
 }
 
 .gif-row img {
-    width: 50%;             /* each takes half */
-    border-radius: 10px;
+    width: 55%;             /* each takes half */
+    border-radius: 15px;
     display: block;
 }
 
@@ -415,6 +415,7 @@ hr {
         width: 100%;
     }
 }
+
 
 
 
