@@ -406,6 +406,15 @@ hr {
 }
 
 
+@media (max-width: 700px) {
+    .gif-row {
+        flex-direction: column;
+    }
+
+    .gif-row img {
+        width: 100%;
+    }
+}
 
 
 
